@@ -22,18 +22,18 @@ def erro(msg): #Função para mensagem de erro
 def pausa(): #Pausa o script para ler as informações, evitando que o menu aparece toda hora.
     input("\nPrecione Enter para voltar ao menu...")
 
-def cadastro_login():
+def cadastro_login(): #Cadastro de usuário
     usuario = input("Usuário: ")
     senha = input("Senha: ")
-    if usuario in dados:
+    if usuario in dados: #Verifica se o usuário está no sistema
         erro("Já existe um usuário com esse nome")
         time.sleep(2)
         return
-    dados[usuario] = senha
+    dados[usuario] = senha #Manda o usuário e a senha pro dicionário
     sucesso("Usuário cadastrado com sucesso!")
     pausa()
 
-def login():
+def login(): # Função de login. É obrigado a sempre retornar True ou False pra sair do While se o login aprovar.
     usuario = input("Usuário: ")
     senha = input("Senha: ")
     if usuario not in dados:
@@ -47,11 +47,11 @@ def login():
         erro("Senha inválida!")
         return False
 
-def listar_login():
+def listar_login(): #Função listar com laço for
     print("Aqui estão todos os usuários ativos: ")
     for usuario in dados:
         print(f"\nUsuário: {usuario}")
-        pausa()
+pausa()
 
 #Funções sistema de cadastro :
 banco = {} #Local que armazena os produtos, valores e estoque
@@ -112,15 +112,15 @@ while menu_login != 0:
     print("1 - Cadastrar usuário")
     print("2 - Login")
     print("3 - Listar usuários")
-    print("="*30)
+    print("="*27)
     menu_login = int(input("Digite a opção desejada: "))
 
     if menu_login == 1:
         cadastro_login()
            
     elif menu_login == 2:
-        login()
-        break
+       if login():
+            break
 
     elif menu_login == 3:
         listar_login()
@@ -133,6 +133,7 @@ while menu != 0: #Loop sistema de cadastro
     print("1 - Cadastrar um novo produto")
     print("2 - Atualizar preço ou estoque do produto cadastrado")
     print("3 - Listar todos os produtos cadastrados")
+    print("="*27)
     menu = int(input("Digite aqui a opção desejada: "))
 
     if menu == 1:
