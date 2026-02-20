@@ -8,9 +8,10 @@ do código.
 
 O sistema conta com login, cadastro de produtos com valores e estoque, listagem de produtos, atualizar estoque ou valores.
 """
-
-banco = {} #Local que armazena os produtos, valores e estoque
-menu = -1 #variável que permite loop do menu
+#Funções sistema de login:
+import time
+dados = {}
+menu_login = -1
 
 def sucesso(msg): #Função para mensagem de sucesso
     print(f"\n\033[32m{msg}\033[m")
@@ -20,9 +21,42 @@ def erro(msg): #Função para mensagem de erro
 
 def pausa(): #Pausa o script para ler as informações, evitando que o menu aparece toda hora.
     input("\nPrecione Enter para voltar ao menu...")
+
+def cadastro_login():
+    usuario = input("Usuário: ")
+    senha = input("Senha: ")
+    if usuario in dados:
+        erro("Já existe um usuário com esse nome")
+        time.sleep(2)
+        return
+    dados[usuario] = senha
+    sucesso("Usuário cadastrado com sucesso!")
+    pausa()
+
+def login():
+    usuario = input("Usuário: ")
+    senha = input("Senha: ")
+    if usuario not in dados:
+        erro("Usuário não encontrado")
+        time.sleep(2)
+        return False
+    elif dados[usuario] == senha:
+        sucesso("Acesso liberado")
+        return True
+    else: 
+        erro("Senha inválida!")
+        return False
+
+def listar_login():
+    print("Aqui estão todos os usuários ativos: ")
+    for usuario in dados:
+        print(f"\nUsuário: {usuario}")
+        pausa()
+
+#Funções sistema de cadastro :
+banco = {} #Local que armazena os produtos, valores e estoque
+menu = -1 #variável que permite loop do menu
     
-
-
 def cadastro(): #Função de cadastro de produtos
     produto = input("Qual produto quer cadastrar?: ")
     if produto in banco: #Verifica se o produto já existe no sistema, evita duplicidade
@@ -71,9 +105,28 @@ def atualizar(): #Função para atualizar as informações do produto
         banco[produto]["estoque"] = novo_estoque
         sucesso("Estoque do produto atualizado com sucesso")
         pausa()
+
+#Loop Login:
+while menu_login != 0:
+    print("========== MENU ==========")
+    print("1 - Cadastrar usuário")
+    print("2 - Login")
+    print("3 - Listar usuários")
+    print("="*30)
+    menu_login = int(input("Digite a opção desejada: "))
+
+    if menu_login == 1:
+        cadastro_login()
+           
+    elif menu_login == 2:
+        login()
+        break
+
+    elif menu_login == 3:
+        listar_login()
     
 
-while menu != 0: #Loop para manter o menu funcionando
+while menu != 0: #Loop sistema de cadastro
     print("-"*70)
     print("========== MENU ==========")
     print("Escolha uma das seguintes opções:")
